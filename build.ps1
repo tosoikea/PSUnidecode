@@ -2,9 +2,9 @@
 param(
     # Build task(s) to execute
     [parameter(ParameterSetName = 'task', position = 0)]
-    [string]$Task = 'default',
+    [string] $Task = 'default',
     # Bootstrap dependencies
-    [switch]$Bootstrap,
+    [switch] $Bootstrap,
     # List available build tasks
     [switch] $Help,
     [switch] $NoBuild,
@@ -45,8 +45,11 @@ if ($Help.IsPresent) {
 } 
 elseif (-not $NoBuild.IsPresent) {
 
-    Write-Verbose -Message ("{0} :: Importing Dependencies" -f $MyInvocation.MyCommand)
-    Invoke-PSDepend -Path $requiremensPath -Import -Force
+    if (-not $Bootstrap.IsPresent) {
+        Write-Information "Installing Dependencies"
+        Write-Verbose -Message ("{0} :: Importing Dependencies" -f $MyInvocation.MyCommand)
+        Invoke-PSDepend -Path $requiremensPath -Import -Force
+    }
 
     Write-Verbose -Message ("{0} :: Starting PSake" -f $MyInvocation.MyCommand)
     Invoke-psake -buildFile $psakeFile -taskList $Task -nologo
