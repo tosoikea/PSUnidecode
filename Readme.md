@@ -21,7 +21,7 @@ To install all dependencies simply run the following command in an elevated shel
 ## Running the tests
 
 ```powershell
-.\build.ps1 -Test
+.\build.ps1 -Task Test
 ```
 
 ## Deployment
